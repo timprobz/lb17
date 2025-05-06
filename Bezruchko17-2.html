@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Гра "Вгадай число"</title>
+</head>
+<body>
+  <script>
+    function guessNumberGame() {
+      let playAgain;
+      do {
+        const target = Math.floor(Math.random() * 101);
+        let attempt = 0;
+        let guess;
+        let lastDiff = null;
+
+        while (true) {
+          const now = new Date();
+          const timestamp = now.toLocaleString('uk-UA');
+          guess = prompt("Вгадайте число від 0 до 100:");
+
+          if (guess === null) return;
+          guess = Number(guess);
+          attempt++;
+
+          const diff = Math.abs(guess - target);
+          const msg = `${timestamp} Спроба ${attempt}: число ${guess} –`;
+
+          if (guess === target) {
+            alert(`За ${attempt} спроб ви вгадали число ${target}`);
+            break;
+          } else {
+            let feedback = '';
+
+            if (diff >= 50) feedback = 'дуже холодно';
+            else if (diff >= 30) feedback = 'холодно';
+            else if (diff >= 15) feedback = 'тепло';
+            else feedback = 'гаряче';
+
+            if (lastDiff !== null) {
+              if (diff < lastDiff) feedback += ', тепліше';
+              else if (diff > lastDiff) feedback += ', холодніше';
+            }
+
+            console.log(`${msg} не вірно (${feedback})`);
+            lastDiff = diff;
+          }
+        }
+
+        playAgain = confirm("Хочете спробувати ще раз?");
+      } while (playAgain);
+    }
+
+    guessNumberGame();
+  </script>
+</body>
+</html>
